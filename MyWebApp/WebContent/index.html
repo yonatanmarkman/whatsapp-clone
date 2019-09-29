@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>ChatMe</title>
+
+<!-- imports needed for angular and bootstrap to work -->
+<script src="lib/angular.min.js"></script>
+<link rel="stylesheet"
+	href="lib/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+<script src="lib/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="index.css">
+
+
+</head>
+<body class="body-one" ng-app="chatMeApp"
+	ng-controller="chatMeController">
+	<!-- login screen -->
+	<div class="login-screen">
+		<div class="container">
+			<form class="log-in" ng-submit="sendLogInForm()"
+				ng-show="currentStateOfUse==0">
+				<!-- The navigation bar -->
+				<div class="col-lg-13 ">
+					<nav class="navbar navbar-inverse mainNavbar">
+						<div class="container-fluid">
+							<div class="navbar-header">
+								<div class="navbar-brand">ChatMe</div>
+							</div>
+							<ul class="nav navbar-nav navbar-right">
+							<!-- user name and password fields -->
+								<li><input type="text" class="form-control form-control-details-login"
+									placeholder="Username" aria-describedby="sizing-addon1"
+									ng-model="logInUsername"></li>
+								<li><input type="password" class="form-control form-control-details-login"
+									placeholder="Password" aria-describedby="sizing-addon1"
+									ng-model="logInPassword"></li>
+								<li>
+								<!-- Login button -->
+									<button type="submit" value="Submit"
+										class="btn-login btn-default glyphicon glyphicon-play">Login</button>
+								</li>
+							</ul>
+
+						</div>
+					</nav>
+				</div>
+					<!-- Alerts on in valid login details  -->
+				<div class="alert-for-username-password alert-danger pull-left danger-txt danger-window" role="alert"
+					ng-show="authenticationError == 100">Username cannot contain
+					any special characters.</div>
+
+
+				<div class="alert-for-username-password alert-danger pull-left danger-txt" role="alert"
+					ng-show="authenticationError == 101">Invalid combination of
+					username & password.</div>
+
+			</form>
+<!-- Sign up -->
+			<form ng-submit="sendSignUpForm()" ng-show="currentStateOfUse==0">
+			
+				<div class="row">
+					<div class="col-lg-6 total-panel-login">
+
+						<div class="sign-up-description">Register Today!</div>
+						<div class="sign-up-description-down">and find friends to
+							tour with!</div>
+<!-- input fields for sign up-->
+						<div class="row-lg-2 username-login-input">
+							
+							<!-- Username input -->
+							<div class="input-group input-group-lg">
+								<span class="input-group-addon glyphicon glyphicon-user"
+									id="sizing-addon1"></span> <input type="text"
+									class="form-control" placeholder="Username"
+									aria-describedby="sizing-addon1" ng-model="signUpUsername">
+							</div>
+							
+<!-- Password input -->
+							<div class="input-group input-group-lg">
+								<span class="input-group-addon glyphicon glyphicon-lock"
+									id="sizing-addon1"></span> <input type="password"
+									class="form-control" placeholder="Password"
+									aria-describedby="sizing-addon1" ng-model="signUpPassword">
+							</div>
+
+							<!-- Nickname input -->
+
+							<div class="input-group input-group-lg">
+								<span class="input-group-addon glyphicon glyphicon-eye-open"
+									id="sizing-addon1"></span> <input type="text"
+									class="form-control" placeholder="Nickname"
+									aria-describedby="sizing-addon1" ng-model="signUpNickname">
+							</div>
+
+<!-- text area for Short Description input -->
+
+							<div class="input-group input-group-lg">
+								<span class="input-group-addon glyphicon glyphicon-pencil"
+									id="sizing-addon1"></span> <textarea class="form-control" type="text" placeholder="Short Description (optional)" aria-describedby="sizing-addon1"
+							ng-model="signUpdescription" rows="1" ></textarea>
+									
+							</div>
+
+						<!-- Photo URL input -->	
+
+							<div class="input-group input-group-lg">
+								<span class="input-group-addon glyphicon glyphicon-picture"
+									id="sizing-addon1"></span> <input type="text"
+									class="form-control" placeholder="Photo URL (optional)"
+									aria-describedby="sizing-addon1" ng-model="signUpImage"
+									ng-change="updateProfilePic()">
+							</div>
+
+							
+<!--sign up button -->
+
+							<div class="input-group input-group-lg btn-group-register">
+								<button type="submit" value="Submit" class="btn-go-register">Sign
+									Up</button>
+							</div>
+							
+							<!-- Username field alerts -->
+							<div class="alert alert-danger pull-left danger-txt" role="alert"
+								ng-show="authenticationError == 102">Username field empty.
+							</div>
+
+							<div class="alert alert-danger pull-left danger-txt" role="alert"
+								ng-show="authenticationError == 103">Username already
+								exists.</div>
+
+							<div class="alert alert-danger pull-left danger-txt" role="alert"
+								ng-show="authenticationError == 104">Username cannot
+								contain special characters.</div>
+
+							<div class="alert alert-danger pull-left danger-txt" role="alert"
+								ng-show="authenticationError == 105">Username cannot be
+								more than 10 characters.</div>
+
+
+							
+<!-- Password field alerts -->
+							<div class="alert alert-danger pull-left danger-txt" role="alert"
+								ng-show="authenticationError == 106">Password cannot be
+								more than 8 characters.</div>
+
+							<div class="alert alert-danger pull-left danger-txt" role="alert"
+								ng-show="authenticationError == 107">Password field is
+								empty.</div>
+
+
+							
+<!-- Nickname field alerts -->
+							<div class="alert alert-danger pull-left danger-txt" role="alert"
+								ng-show="authenticationError == 108">Nickname field is
+								empty.</div>
+
+							<div class="alert alert-danger pull-left danger-txt" role="alert"
+								ng-show="authenticationError == 109">Nickname cannot be
+								more than 20 characters.</div>
+
+
+							<!-- Description field alerts -->
+
+							<div class="alert alert-danger pull-left danger-txt" role="alert"
+								ng-show="authenticationError == 110">Description cannot be
+								more than 50 characters.</div>
+
+<!-- URL field alerts -->
+							<div class="alert alert-danger pull-left danger-txt" role="alert"
+								ng-show="authenticationError == 111">URL cannot be
+								more than 3000 characters.</div>
+
+						</div>
+						
+					</div>
+					<div class="col-lg-1"></div>
+					<!-- User image -->
+					<div class="col-lg-4"><img alt="User photo" class="user-image" ng-show="hasImage==1" src="{{imageSource}}"></img></div>
+					<div class="col-lg-1"></div>
+
+				</div>
+			</form>
+
+
+<!-- The chat screen -->
+			<div class="welcome-screen ng-hide" ng-show="currentStateOfUse==1">
+				<div class="container">
+				<!-- navigation bar -->
+					<div class="row row-of-navbar">
+						<div class="col-lg-13 ">
+							<nav class="navbar navbar-inverse mainNavbar"
+								ng-hide="currentStateOfUse==0">
+								<div class="container-fluid">
+								<!-- show the user nickname on the navbar -->
+									<div class="navbar-header">
+										<a class="navbar-brand1 navbar-brand ng-binding">Hello, {{thisUserNickname}}! </a>
+									</div>
+									<!--  The user can navigate to Channels or to create channel page -->
+									<ul class="nav navbar-nav">
+										<li class="active main-menu-item btn-nav" ng-click="gotoChannelsPage()">Channels</li>
+										<li class="active main-menu-item btn-nav" ng-click="gotoCreateChannelPage()">Create channel</li>
+									</ul>
+									<form class="navbar-form navbar-right ng-pristine ng-valid">
+									<!-- search for public chanels  -->
+										<div class="form-group insert-login-details">
+											<input type="text"
+												class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+												ng-model="searchQuery"
+												placeholder="Search for channels">
+											<button type="Search" class="btn btn-default"
+												ng-click="searchChannel(searchQuery)">Search</button>
+										</div>
+									</form>
+								</div>
+							</nav>
+						</div>
+					</div>
+					<div class="row total-second-row">
+					<!-- list of public channels that the user subscribe to  -->
+								<div class="col-lg-3 sidebar">
+							<div class="panel-group">
+								<div class="panel panel-primary public-pannel">
+									<div class="panel-heading panel-primary-title">Public
+										Channels</div>
+									<div class="panel-body">
+										
+									<div class="tmp-three">
+											<ul class="list-group overflow-channels">			
+														<li class="list-group-item item-in-channel-list" ng-repeat="x in userPublicChannelList" >
+											<span
+												class="glyphicon glyphicon-remove btn btn-default-two" aria-hidden="true" ng-click="unSubscribeFromChannel(x.channelId,x.type)"></span>
+												<span class="channel-name-in-channel-list" ng-click="goToChannel(x.channelId,x.channelName,publicChannelType)">
+													{{x.channelName}} </span> 
+													<div
+												class="badge badge-for-notifications" ng-hide="x.notifications==0">{{x.notifications}}</div> <div
+												class="badge badge-for-mentions" ng-hide="x.mentions==0">@{{x.mentions}}</div>
+												</li>
+														
+											</ul>
+									</div>
+									</div>
+								</div>
+								<!-- list of private channels that the user subscribe to  -->
+								<div class="panel panel-primary private-panel ">
+									<div class="panel-heading">Private Channels</div>
+									<div class="panel-body">
+									<div class="tmp-three">
+										<ul class="list-group overflow-channels">
+											<li class="list-group-item item-in-channel-list" ng-repeat="x in userPrivateChannelList" >
+
+											<span class="glyphicon glyphicon-remove btn btn-default-two" aria-hidden="true" ng-click="unSubscribeFromChannel(x.channelId,x.type)"></span>
+											<span class="badge badge-for-notifications" ng-hide="x.notifications==0">{{x.notifications}}</span> 
+											<span  class="badge badge-for-mentions" ng-hide="x.mentions==0">@{{x.mentions}}</span>
+												<span class="channel-name-in-channel-list" ng-click="goToChannel(x.channelId,x.channelName,privateChannelType)">
+													{{x.channelName}} </span>
+													
+												</li>
+										</ul>
+									</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-lg-9 total-panel">
+							<div class="container-fluid container-for-messages">
+								<div class="row container-for-messages-scroller">
+									<div class="tmp">
+										<div class=" panel panel-chat ">
+										<!-- current channel name -->
+											<h4 class="media-heading channel-name ng-binding" ng-hide="chatErrorCode==3000">
+												{{currentChannelName}}
+											</h4>
+											<h4 class="media-heading channel-name ng-binding" ng-show="chatErrorCode==3000">
+												Creation of {{currentChannelName}} succeeded!
+											</h4>
+											<div class="message tmp-two">
+											<ul class="media-list overflow-for-media-list">
+
+												<div class="row" ng-repeat="x in currentChannelMessageList" ng-hide="chatErrorCode==4000">
+<!-- list of messages in the current channels  -->
+													
+														<li class="media message-style">
+															<div class="media-left">
+															<!-- the user image  -->
+																<img class="media-object" alt="user image"
+																	src="{{x.photo}}">
+															</div>
+															<div class="media-body">
+
+																<h4 class="media-heading nicknane-sent-msg pull-left ">
+																<!-- the user nicname. press on it will start a private chat with this person -->
+																	<button type="button" class="btn btn-default"
+																		aria-label="Right Align"
+																		ng-show="x.userName!==thisUsername"
+																		ng-click="createNewPrivateChannel(thisUsername,x.userName)">
+																		@{{x.nickName}}</button>
+																	<div ng-show="x.userName===thisUsername">
+																		{{x.nickName}}
+																	</div>
+																</h4>
+<!-- Message sent time  -->
+																<small class="pull-right time"> {{x.sentTime}} </small>
+																<button type="button" class="btn-reply pull-right">
+																<!-- reply button -->
+																	<span class="glyphicon glyphicon-share"
+																		aria-hidden="true">Reply</span>
+																</button>
+																<!-- message content -->
+																<p class="content-msg pull-left">{{x.content}}</p>
+															</div>
+														</li>
+													
+												</div>
+											</ul>
+											</div>
+										</div>
+									</div>
+								</div>
+									<!--text area for type a message  -->
+								<div class="row" ng-hide="chatErrorCode==404">
+									<div class="send-wrap">
+										<textarea class="form-control-msg send-message" rows="2"
+											placeholder=" Write a message..." ng-model="messageToSendContent">
+										</textarea>
+									</div>
+									
+									<div class="btn-panel">
+										<!-- alert if message content longer than 500 characters  -->
+										<div class="alert alert-danger pull-left danger-txt"
+											role="alert" ng-show="chatErrorCode==500">Message
+											cannot be longer than 500 characters.</div>
+											<!--button for send a message  -->
+										<button
+											class="col-lg-4 btn-send-message text-right pull-right"
+											ng-show="currentChannelId" ng-click="sendMessage()">Send Message</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	
+
+	<!-- search channel screen -->
+		<div class="channel-search" ng-show="currentStateOfUse==2">
+			<div class="container">
+				<div class="row row-of-navbar">
+					<div class="col-lg-13 ">
+			<nav class="navbar navbar-inverse mainNavbar"
+								ng-hide="currentStateOfUse==0">
+								<div class="container-fluid">
+									<div class="navbar-header">
+									<!-- show the user nickname on the navbar -->
+										<a class="navbar-brand1 navbar-brand ng-binding">Hello, {{thisUserNickname}}! </a>
+									</div>
+									<ul class="nav navbar-nav">
+									<!--  The user can navigate to Channels or to create channel page -->
+										<li class="active main-menu-item btn-nav" ng-click="gotoChannelsPage()">Channels</li>
+										<li class="active main-menu-item btn-nav" ng-click="gotoCreateChannelPage()">Create channel</li>
+									</ul>
+										<!-- search for public chanels  -->
+									<form class="navbar-form navbar-right ng-pristine ng-valid">
+										<div class="form-group insert-login-details">
+											<input type="text"
+												class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+												ng-model="searchQuery"
+												placeholder="Search for channels">
+											<button type="Search" class="btn btn-default"
+												ng-click="searchChannel(searchQuery)">Search</button>
+										</div>
+									</form>
+								</div>
+							</nav>
+					</div>
+				</div>
+
+		
+
+
+<div class="panel panel-default">
+    <!-- Table head that showing the user search query -->
+  <div class="panel-heading head-search-result"><h2 ng-show="searchQuery">Results search for: {{lastSearchQuery}}</h2>
+  <!-- Default panel contents -->
+  <h2 ng-hide="searchQuery">Showing top 100 channels.</h2></div>
+
+  <!-- Table for search results -->
+<table class="table">
+
+					<thead class="search-head-table">
+						<tr class="search-heads-table">
+							<!-- <th>#</th> -->
+							<th class="search-heads-table">Channel Name</th>
+							<th class="search-heads-table">Channel Short Description</th>
+							<!--  <th class="search-heads-table">Number of participants</th> -->
+							<td></td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="x in searchResults" class="search-table-body">
+							
+							<td>{{x.channelName}}</td>
+							<td>{{x.channelDescription}}</td>
+							<!--  <td></td> -->
+							<td>
+							 <!-- button for subscribe -->
+								<button type="button" class="btn btn-default"
+									ng-show="isUserSubscribed(x.channelId)==0"
+									ng-click="subscribeToChannel(x.channelId,x.channelName)"
+									aria-label="Right Align">
+									<span class="glyphicon glyphicon-plus-sign" aria-hidden="true">
+										Subscribe </span>
+								</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+</div>			
+				<div class="alert alert-success" role="alert" ng-show="chatErrorCode==2000">Subscription to
+					{{channelSubscribedTo}} succeeded! </div> 
+				
+
+			</div>
+		</div>
+<!-- Create channel screen -->
+		<div class="channel-creation" ng-show="currentStateOfUse==3">
+			<div class="container">
+				<div class="row row-of-navbar">
+					<div class="col-lg-13 ">
+						<nav class="navbar navbar-inverse mainNavbar"
+								ng-hide="currentStateOfUse==0">
+								<div class="container-fluid">
+									<div class="navbar-header">
+									<!-- show the user nickname on the navbar -->
+										<a class="navbar-brand1 navbar-brand ng-binding">Hello, {{thisUserNickname}}! </a>
+									</div>
+									<ul class="nav navbar-nav">
+									<!--  The user can navigate to Channels or to create channel page -->
+										<li class="active main-menu-item btn-nav" ng-click="gotoChannelsPage()">Channels</li>
+										<li class="active main-menu-item btn-nav" ng-click="gotoCreateChannelPage()">Create channel</li>
+									</ul>
+									<form class="navbar-form navbar-right ng-pristine ng-valid">
+										<div class="form-group insert-login-details">
+										<!-- search for public chanels  -->
+											<input type="text"
+												class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+												ng-model="searchQuery"
+												placeholder="Search for channels">
+											<button type="Search" class="btn btn-default"
+												ng-click="searchChannel(searchQuery)">Search</button>
+										</div>
+									</form>
+								</div>
+							</nav>
+					</div>
+				</div>
+<!-- input for the channel name  -->
+				<div class="row-lg-2 username-login-input">
+					<div class="input-group input-group-lg">
+						<span class="input-group-addon" id="sizing-addon1">Channel
+							Name</span> <input type="text" class="form-control"
+							placeholder="Channel Name" aria-describedby="sizing-addon1"
+							ng-model="inputChannelName">
+					</div>
+<!-- input for short description   -->
+					<div class="input-group input-group-lg">
+						<span class="input-group-addon" id="sizing-addon1">Channel
+							Short Description</span> <textarea class="form-control" placeholder="Give a short description (optional)" aria-describedby="sizing-addon1"
+							ng-model="inputChannelDescription" rows="1"></textarea>    
+      </div>	
+					</div>
+					<!-- button for create the channel -->
+					<div class="input-group input-group-lg btn-group-register">
+						<button class="btn-go-register"
+							ng-click="createNewPublicChannel(inputChannelName,inputChannelDescription)">Create
+						</button>
+					</div>
+					<div class="alert alert-success" role="alert" ng-show="chatErrorCode==1000">Creation of
+					{{channelCreated}} succeeded! </div>
+				</div>
+			</div>
+		</div>
+
+		<script src="index.js"></script>
+</body>
+</html>

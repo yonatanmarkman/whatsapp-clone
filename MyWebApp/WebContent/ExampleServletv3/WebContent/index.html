@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>AngularJS example</title>
+
+<script src="lib/angular.min.js" ></script>
+<link rel="stylesheet" href="lib/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+<script src="lib/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+
+<style>
+th{
+	background-color: #B3C4A2;
+}
+</style>
+
+</head>
+
+<body>
+<div class="container">
+		<!-- The in-table search application scope will be defined within this <div>...</div> environment -->
+		<div ng-app="inTableSearchApp" ng-controller="inTableSearchController">
+		<div class="well well-lg">
+			<div class="row">
+				<div class="col-sm-3"></div>
+				<div class="col-sm-6">	
+					<h2>Interactive Table Search Example</h2>
+					<input class="form-control" type="text" ng-model="query"
+						ng-change="search()" /> <br />Your query: {{query}}
+					<!-- any time the user types a keyword it will be immediately reflected back in the view -->
+					<br /> <br />
+					<div class="col-sm-3"></div>
+				</div>
+			</div>
+			</div>
+			<!-- this table holds the search results -->
+			<div class="row">
+				<div class="col-sm-3"></div>
+				<div class="col-sm-6 col-centered">
+					<table class="table table-condensed">
+						<tr>
+							<th>Name</th>
+							<th>City</th>
+							<th>Country</th>
+						</tr>
+						<!-- output each result into the table -->
+						<tr ng-repeat="x in result">
+							<!-- ng-bind-html allows to bind a variable to the innerHTML part of the HTML element -->
+							<td ng-bind-html="hlight(x.Name,query)" />
+							<td ng-bind-html="hlight(x.City,query)" />
+							<td ng-bind-html="hlight(x.Country,query)" />
+						</tr>
+					</table>
+				</div>
+				<div class="col-sm-3"></div>
+			</div>
+		</div>
+	</div>
+	
+<script src="js/index.js"></script>
+<script src="js/helperService.js"></script>
+
+</body>
+</html>
