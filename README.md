@@ -21,8 +21,4 @@ Also it uses the WebSocket technology, so that the chats are updated in real-tim
 The database itself was stored on an Apache Derby server.
 I managed the Database using the Squirrel SQL Client.
 
-<<<<<<< HEAD
 The biggest challenge in this part was to plan the DB schema before the implementation. And also, testing the servlets code, ensuring that data from the client-side JS was succesfully parsed to Java models using the JSON objects.
-=======
-The biggest challenge in this part was to plan the DB schema before the implementation. And also, testing the servlets code, ensuring that data from the client-side JS was succesfully parsed to Java models using the JSON objects.
->>>>>>> 912efe9c26534838196da6d07d2f0dbbd5f59e74
