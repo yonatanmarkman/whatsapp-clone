@@ -3,7 +3,7 @@
 This is the final project I've built during the course Web Programming.
 
 This project is a single-page web application.
-It is chatting website similar to WhatsApp, where users can register, and chat on a private channel (one-to-one chat), or on a group channel (more than two people at a time).
+It is a chatting website similar to WhatsApp, where users can register, and chat on a private channel (one-to-one chat), or on a group channel (more than two people at a time).
 
 ## Front-End
 
